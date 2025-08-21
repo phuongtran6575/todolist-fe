@@ -20,7 +20,7 @@ const TodoListPage = () => {
   },[])
 
   const handleAddTodo = () =>{
-    axios.post(`http://localhost:8000/todo`, todo).then(response =>
+    axios.post(`http://localhost:8000/todos`, {name: todo.name}).then(response =>
     {
       setTodos([...todos, response.data])
       setTodo({id:0, name:""})      
@@ -73,7 +73,7 @@ const TodoListPage = () => {
             <List>
               {
                 todos.map(todo=>(
-                  <ListItem>
+                  <ListItem key={todo.id}>
                     <TodoCard todo={todo} onDelete={() => handleDeleteTodo(todo.id)}/>
                   </ListItem>
                 ))
