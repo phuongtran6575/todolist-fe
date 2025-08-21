@@ -7,29 +7,35 @@ import axios from "axios";
 
 const TodoListPage = () => {
 
-  const [todo, setTodo] = useState<Todo>({id: 0, name: ""})
-  const [todos, setTodos] = useState<Todo[]>([])
+  const[todo, setTodo] = useState<Todo>({id:0, name:""})
+  const[todos, setTodos] = useState<Todo[]>([])
   
-  const fetchBooks= () =>
-  {
-    axios.get("")
-    .then(responde => setTodos(responde.data))
-    .catch(error => console.log(error))
-  }
+  
 
-  useEffect(() => {
-    fetchBooks();
-  },[]);
+  const fetchTodos = () =>{
+    axios.get(`http://localhost:8000/todos`).then(response => setTodos(response.data)).catch(e => console.log(e))
+  }
+  useEffect(() =>{
+    fetchTodos()
+  },[])
 
   const handleAddTodo = () =>{
-    setTodos(prev => [...prev,{id:todos.length + 1, name: todo.name}])
-    setTodo({id: 0, name: ""})
+    axios.post(`http://localhost:8000/todo`, todo).then(response =>
+    {
+      setTodos([...todos, response.data])
+      setTodo({id:0, name:""})      
+    }
+    ).catch(e => console.log(e))
   }
+  const handleDeleteTodo = (id: number) => {
+    axios.delete(`http://localhost:8000/todo/${id}`)
+      .then(() => {
+        setTodos(prev => prev.filter(todo => todo.id !== id));
+      })
+      .catch(err => console.error(err));
+  };
 
-  const handleDeleteTodo = (id: number) =>{
-    setTodos(prev => prev.filter(todo => todo.id !== id))
-
-  }
+  
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" bgcolor="#f5f7fb">
