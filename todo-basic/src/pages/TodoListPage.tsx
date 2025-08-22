@@ -28,7 +28,7 @@ const TodoListPage = () => {
     ).catch(e => console.log(e))
   }
   const handleDeleteTodo = (id: number) => {
-    axios.delete(`http://localhost:8000/todo/${id}`)
+    axios.delete(`http://localhost:8000/todos/${id}`)
       .then(() => {
         setTodos(prev => prev.filter(todo => todo.id !== id));
       })

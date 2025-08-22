@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 interface TodoCardProps {
     todo: Todo
-    onDelete: (id:number) => void
+    onDelete: () => void
 }
 
 const TodoCard = ({todo, onDelete}: TodoCardProps ) => {
@@ -16,7 +16,7 @@ const TodoCard = ({todo, onDelete}: TodoCardProps ) => {
             </Box>
             <Box>
                 <Radio />
-                <IconButton onClick={()=>onDelete} ><DeleteIcon/></IconButton>
+                <IconButton onClick={onDelete} ><DeleteIcon/></IconButton>
             </Box>
         </Paper>
     );
