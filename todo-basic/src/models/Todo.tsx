@@ -3,7 +3,7 @@ export interface Todo
     id: number
     description: string
     name: string
-    created_ad: string |null
+    created_at: string |null
     due_at: string | null
     isDone: boolean | null
 }

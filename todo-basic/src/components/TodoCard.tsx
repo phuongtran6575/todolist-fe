@@ -12,7 +12,7 @@ interface TodoCardProps {
 const TodoCard = ({todo, onDelete}: TodoCardProps ) => {
     return (
         <Paper variant="outlined"
-              sx={{ display: "flex", alignItems: "center", p: 2, borderRadius: 2,justifyContent: "space-between",}}>
+              sx={{ width:"100%", display: "flex", alignItems: "center", p: 2, borderRadius: 2,justifyContent: "space-between",}}>
               <Box display="flex" alignItems="flex-start" gap={1}>
                 <Radio />
                 <Box>
@@ -29,7 +29,7 @@ const TodoCard = ({todo, onDelete}: TodoCardProps ) => {
                 <IconButton color="primary">
                   <EditIcon />
                 </IconButton>
-                <IconButton onClick={() => onDelete} color="error">
+                <IconButton onClick={onDelete} color="error">
                   <DeleteIcon />
                 </IconButton>
               </Box>

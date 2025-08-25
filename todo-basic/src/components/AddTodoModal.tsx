@@ -15,7 +15,7 @@ const AddTodoModal = ({open, handleClose, fetchTodos}:AddTodoModalProps) => {
       id: 0,
       description: "",
       name: "",
-      created_ad: "",
+      created_at: "",
       due_at: "",
       isDone: false
     }
@@ -28,12 +28,12 @@ const AddTodoModal = ({open, handleClose, fetchTodos}:AddTodoModalProps) => {
     due_at: todo.due_at ? new Date(todo.due_at).toISOString() : null,
     isDone: todo.isDone
   })
-  .then(response => {
+  .then(() => {
     setTodo({
       id: 0,
       description: "",
       name: "",
-      created_ad: "", // chỉ để form hiển thị, backend không dùng
+      created_at: "", // chỉ để form hiển thị, backend không dùng
       due_at: "",     // reset input cho người dùng nhập tiếp
       isDone: false
     })
