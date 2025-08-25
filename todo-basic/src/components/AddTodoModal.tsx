@@ -6,9 +6,10 @@ import axios from 'axios';
 interface AddTodoModalProps{
     open: boolean
     handleClose: () => void
+    fetchTodos: () => void 
   }
 
-const AddTodoModal = ({open, handleClose}:AddTodoModalProps) => {
+const AddTodoModal = ({open, handleClose, fetchTodos}:AddTodoModalProps) => {
   const[todo, setTodo] = useState<Todo>(
     {
       id: 0,
@@ -27,7 +28,7 @@ const AddTodoModal = ({open, handleClose}:AddTodoModalProps) => {
     due_at: todo.due_at ? new Date(todo.due_at).toISOString() : null,
     isDone: todo.isDone
   })
-  .then(() => {
+  .then(response => {
     setTodo({
       id: 0,
       description: "",
@@ -36,8 +37,11 @@ const AddTodoModal = ({open, handleClose}:AddTodoModalProps) => {
       due_at: "",     // reset input cho người dùng nhập tiếp
       isDone: false
     })
+    handleClose();
+    fetchTodos()
   })
-  .catch(e => console.log(e))
+  .catch(e => console.log(e));
+  
 }
 
   return (

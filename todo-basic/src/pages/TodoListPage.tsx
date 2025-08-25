@@ -26,6 +26,7 @@ const TodoListPage = () => {
   }
   const handleClose= () =>{
     setOpen(false)
+    
   }
 
   
@@ -47,7 +48,7 @@ const TodoListPage = () => {
         <Typography textAlign="center" color="text.secondary" mb={3}>
           A simple and elegant way to manage your tasks.
         </Typography>
-        <AddTodoModal open={open} handleClose={handleClose} />
+        <AddTodoModal open={open} handleClose={handleClose} fetchTodos={fetchTodos}/>
 
         {/* Todo Container */}
         <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
