@@ -9,6 +9,7 @@ import AddTodoModal from "../components/AddTodoModal";
 const TodoListPage = () => {
   const [todos, setTodos] = useState<Todo[]>([])
   const [open, setOpen] = useState(false)
+  const [mode, setMode] = useState<boolean>(true)
   
   const fetchTodos = () =>{
     axios.get(`http://localhost:8000/todos`).then(response => 
@@ -21,9 +22,19 @@ const TodoListPage = () => {
     fetchTodos()
   }, [])
 
-  const handleOpenModal = () =>{
+  const handleOpenAddModal = () =>{
+    setMode(true)
     setOpen(true)
   }
+
+  const handleOpenEditModal = () => {
+    setMode(false)
+    setOpen(true)
+  }
+  
+  
+
+  
   const handleClose= () =>{
     setOpen(false)
     
@@ -48,14 +59,14 @@ const TodoListPage = () => {
         <Typography textAlign="center" color="text.secondary" mb={3}>
           A simple and elegant way to manage your tasks.
         </Typography>
-        <AddTodoModal open={open} handleClose={handleClose} fetchTodos={fetchTodos}/>
+        <AddTodoModal open={open} mode={mode} handleClose={handleClose} fetchTodos={fetchTodos}/>
 
         {/* Todo Container */}
         <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
           {/* Search + Add */}
           <Box display="flex" gap={1} mb={3}>
             <TextField fullWidth placeholder="Filter tasks by name or content..." variant="outlined" size="small"/>
-            <Button onClick={handleOpenModal} variant="contained" startIcon={<AddIcon />}
+            <Button onClick={handleOpenAddModal} variant="contained" startIcon={<AddIcon />}
               sx={{ borderRadius: 2, bgcolor: "purple", textTransform: "none", fontWeight: "bold",}}>
               Add New Task
             </Button>
@@ -78,7 +89,7 @@ const TodoListPage = () => {
               {
                 todos.map(todo => (
                   <ListItem key={todo.id}>
-                    <TodoCard todo={todo} onDelete={() =>handleDeleteTodo(todo.id)}/>
+                    <TodoCard todo={todo} onDelete={() =>handleDeleteTodo(todo.id)} onEdit={handleOpenEditModal}/>
                   </ListItem>
                 ))
               }

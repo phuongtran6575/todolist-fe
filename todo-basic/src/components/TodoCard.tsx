@@ -7,9 +7,10 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 interface TodoCardProps {
     todo: Todo
     onDelete: () => void
+    onEdit: () => void
 }
 
-const TodoCard = ({todo, onDelete}: TodoCardProps ) => {
+const TodoCard = ({todo, onDelete, onEdit}: TodoCardProps ) => {
     return (
         <Paper variant="outlined"
               sx={{ width:"100%", display: "flex", alignItems: "center", p: 2, borderRadius: 2,justifyContent: "space-between",}}>
@@ -26,7 +27,7 @@ const TodoCard = ({todo, onDelete}: TodoCardProps ) => {
                 </Box>
               </Box>
               <Box display="flex" justifyContent="space-between" >
-                <IconButton color="primary">
+                <IconButton onClick={onEdit} color="primary">
                   <EditIcon />
                 </IconButton>
                 <IconButton onClick={onDelete} color="error">

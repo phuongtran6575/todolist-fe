@@ -7,9 +7,10 @@ interface AddTodoModalProps{
     open: boolean
     handleClose: () => void
     fetchTodos: () => void 
+    mode: boolean
   }
 
-const AddTodoModal = ({open, handleClose, fetchTodos}:AddTodoModalProps) => {
+const AddTodoModal = ({open, mode, handleClose, fetchTodos}:AddTodoModalProps) => {
   const[todo, setTodo] = useState<Todo>(
     {
       id: 0,
@@ -20,9 +21,10 @@ const AddTodoModal = ({open, handleClose, fetchTodos}:AddTodoModalProps) => {
       isDone: false
     }
   )
+  // true = add modal, false = edit modal
 
-  const handleSaveTodo = () => {
-  axios.post(`http://localhost:8000/todos`, {
+  const handleAddTodo = () =>{ 
+    axios.post(`http://localhost:8000/todos`, {
     description: todo.description,
     name: todo.name,
     due_at: todo.due_at ? new Date(todo.due_at).toISOString() : null,
@@ -41,14 +43,42 @@ const AddTodoModal = ({open, handleClose, fetchTodos}:AddTodoModalProps) => {
     fetchTodos()
   })
   .catch(e => console.log(e));
+  }
+
+  const handleEditTodo = (id: number) =>{
+    axios.put(`http://localhost:8000/todos/${id}`,{
+      description: todo.description,
+      name: todo.name,
+      due_at: todo.due_at ? new Date(todo.due_at).toISOString() : null,
+      isDone: todo.isDone
+    }).then(() =>{
+      setTodo({
+        id: todo.id,
+        description: todo.description,
+        name: todo.name,
+        created_at: todo.created_at, // chỉ để form hiển thị, backend không dùng
+        due_at: todo.due_at,     // reset input cho người dùng nhập tiếp
+        isDone: todo.isDone
+        })
+      handleClose()
+    }).catch(e =>console.log(e))
+  }
+
+  const handleSaveTodo = () => {
+    if(mode == true)
+    {
+      handleAddTodo()
+    } else {
+      handleEditTodo(todo.id)
+    }
   
-}
+  }
 
   return (
     <Box>
         <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm"
         slotProps={{ paper: { sx: { borderRadius: 3, p: 1 } } }}>
-        <DialogTitle sx={{ fontWeight: "bold" }}>Add New Task</DialogTitle>
+        <DialogTitle sx={{ fontWeight: "bold" }}>{mode == true ? "Add New Task" : "Edit Task"}</DialogTitle>
         <DialogContent dividers>
           <Box display="flex" flexDirection="column" gap={2} mt={1}>
             {/* Task Name */}
@@ -69,7 +99,7 @@ const AddTodoModal = ({open, handleClose, fetchTodos}:AddTodoModalProps) => {
           </Button>
           <Button onClick={handleSaveTodo} variant="contained"
             sx={{ borderRadius: 2, bgcolor: "purple", textTransform: "none", fontWeight: "bold",}}>
-            Save Task
+            {mode == true? "Add Task" : "Edit Task"}
           </Button>
         </DialogActions>
       </Dialog>
