@@ -15,12 +15,10 @@ const TodoRegisterPage = () => {
     )
 
   const handleRegister = () =>{
-    axios.post(`http://localhost:8000/auth`, new URLSearchParams({
-       username: user.username,
-        password: user.password
-    }), {headers: {
-      "Content-Type": "application/x-www-form-urlencoded" 
-    }}).then(() =>
+    axios.post(`http://localhost:8000/auth`, {
+      username: user.username,
+      password: user.password
+    }).then(() =>
     {
       setUser({
         id: 0,
@@ -30,6 +28,7 @@ const TodoRegisterPage = () => {
       navigate("/")
     }).catch(e => console.log(e))
   }
+
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh" bgcolor="#f9fafb">

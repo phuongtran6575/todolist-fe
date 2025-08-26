@@ -18,10 +18,11 @@ const TodoLoginPage = () => {
   )
 
   const handleLogin = () =>{
-    axios.post(`http://localhost:8000/auth/token`, {
+    axios.post(`http://localhost:8000/auth/token`, new URLSearchParams({
       username: user.username,
-      password: user.password
-    }).then(() => {
+        password: user.password
+    }) 
+      ,{headers: {"Content-Type": "application/x-www-form-urlencoded"}}).then(() => {
       setUser({
         id: 0,
         username: "",
