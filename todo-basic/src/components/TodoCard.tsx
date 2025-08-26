@@ -11,6 +11,14 @@ interface TodoCardProps {
 }
 
 const TodoCard = ({todo, onDelete, onEdit}: TodoCardProps ) => {
+  const formatDate = (dateString?: string | null) => {
+  if (!dateString) return "Không có hạn";
+  return new Date(dateString).toLocaleDateString("vi-VN", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+};
     return (
         <Paper variant="outlined"
               sx={{ width:"100%", display: "flex", alignItems: "center", p: 2, borderRadius: 2,justifyContent: "space-between",}}>
@@ -20,9 +28,11 @@ const TodoCard = ({todo, onDelete, onEdit}: TodoCardProps ) => {
                   <Typography fontWeight="bold">
                     {todo.name}
                   </Typography>
-                  <Box display="flex" alignItems="center" mt={0.5} color="error.main">
-                    <CalendarTodayIcon sx={{ fontSize: 16, mr: 0.5 }} />
-                    <Typography variant="caption">{todo.due_at}</Typography>
+                  <Box display="flex" alignItems="center" mt={0.5} gap={0.5}>
+                    <CalendarTodayIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+                    <Typography variant="body2" color="text.secondary">
+                      {formatDate(todo.due_at)}
+                    </Typography>
                   </Box>
                 </Box>
               </Box>

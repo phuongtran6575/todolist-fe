@@ -35,16 +35,10 @@ const TodoListPage = () => {
     setOpen(true)
   }
   
-  
-
-  
   const handleClose= () =>{
     setOpen(false)
     
   }
-
-  
-  
 
   const handleDeleteTodo = (id:number) =>{
     axios.delete(`http://localhost:8000/todos/${id}`).then(() =>
@@ -53,8 +47,8 @@ const TodoListPage = () => {
   }
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" bgcolor="#f5f7fb">
-      <Box maxWidth={650} width="100%">
+    <Box display="flex"  justifyContent="center" alignItems="center" minHeight="100vh" bgcolor="#f5f7fb">
+      <Box maxWidth={800} width="100%">
         {/* Title */}
         <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
           Todo List
@@ -69,8 +63,8 @@ const TodoListPage = () => {
           {/* Search + Add */}
           <Box display="flex" gap={1} mb={3}>
             <TextField fullWidth placeholder="Filter tasks by name or content..." variant="outlined" size="small"/>
-            <Button onClick={handleOpenAddModal} variant="contained" startIcon={<AddIcon />}
-              sx={{ borderRadius: 2, bgcolor: "purple", textTransform: "none", fontWeight: "bold",}}>
+            <Button onClick={handleOpenAddModal}  variant="contained" startIcon={<AddIcon />}
+              sx={{ width:"30%", borderRadius: 2, bgcolor: "purple", textTransform: "none", fontWeight: "bold",}}>
               Add New Task
             </Button>
           </Box>
