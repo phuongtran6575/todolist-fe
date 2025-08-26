@@ -48,7 +48,7 @@ const TodoListPage = () => {
 
   return (
     <Box display="flex"  justifyContent="center" alignItems="center" minHeight="100vh" bgcolor="#f5f7fb">
-      <Box maxWidth={800} width="100%">
+      <Box maxWidth={700} width="100%">
         {/* Title */}
         <Typography variant="h4" fontWeight="bold" textAlign="center" gutterBottom>
           Todo List

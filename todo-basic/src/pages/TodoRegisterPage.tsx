@@ -1,6 +1,34 @@
-import { Box, Button, TextField, Typography, Paper, Link } from "@mui/material";
+import { Box, Button, TextField, Typography, Paper } from "@mui/material";
+import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import type { User } from "../models/User";
 
 const TodoRegisterPage = () => {
+  const navigate = useNavigate()
+  const [user, setUser] = useState<User>(
+      {
+        id: 0,
+        username: "",
+        password: ""
+      }
+    )
+
+  const handleRegister = () =>{
+    axios.post(`http://localhost:8000/auth`, {
+      username: user.username,
+      password: user.password
+    }).then(() =>
+    {
+      setUser({
+        id: 0,
+        username: "",
+        password: ""
+      })
+      navigate("/")
+    }).catch(e => console.log(e))
+  }
+
   return (
     <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh" bgcolor="#f9fafb">
       {/* Title */}
@@ -19,11 +47,11 @@ const TodoRegisterPage = () => {
         </Typography>
 
         <Box component="form" display="flex" flexDirection="column" gap={2}>
-          <TextField label="Email" type="email" fullWidth />
-          <TextField label="Password" type="password" fullWidth />
-          <TextField label="Confirm Password" type="password" fullWidth />
+          <TextField onChange={e => {setUser({...user, username: e.target.value})}} label="Email" type="email" fullWidth />
+          <TextField onChange={e => {setUser({...user, password: e.target.value})}} label="Password" type="password" fullWidth />
+          {/*<TextField label="Confirm Password" type="password" fullWidth />*/}
 
-          <Button variant="contained" size="large" fullWidth sx={{ mt: 1, borderRadius: 2 }}>
+          <Button onClick={handleRegister} variant="contained" size="large" fullWidth sx={{ mt: 1, borderRadius: 2 }}>
             Register
           </Button>
         </Box>
@@ -31,7 +59,7 @@ const TodoRegisterPage = () => {
         {/* Login link */}
         <Typography variant="body2" align="center" color="text.secondary" sx={{ mt: 2 }}>
           Already have an account?{" "}
-          <Link href="#" underline="hover">
+          <Link to="/"  >
             Login
           </Link>
         </Typography>
