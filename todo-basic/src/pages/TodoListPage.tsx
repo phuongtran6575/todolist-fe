@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import type { Todo } from "../models/Todo";
 import axios from "axios";
 import TodoCard from "../components/TodoCard";
-import AddTodoModal from "../components/AddTodoModal";
+import TodoModal from "../components/TodoModal";
 
 const TodoListPage = () => {
   const [todos, setTodos] = useState<Todo[]>([])
   const [open, setOpen] = useState(false)
-  const [mode, setMode] = useState<boolean>(true)
+  const [mode, setMode] = useState<"add" | "edit">("add")
+  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
   
   const fetchTodos = () =>{
     axios.get(`http://localhost:8000/todos`).then(response => 
@@ -23,12 +24,14 @@ const TodoListPage = () => {
   }, [])
 
   const handleOpenAddModal = () =>{
-    setMode(true)
+    setSelectedTodo(null)
+    setMode("add")
     setOpen(true)
   }
 
-  const handleOpenEditModal = () => {
-    setMode(false)
+  const handleOpenEditModal = (todo:Todo) => {
+    setSelectedTodo(todo)
+    setMode("edit")
     setOpen(true)
   }
   
@@ -59,7 +62,7 @@ const TodoListPage = () => {
         <Typography textAlign="center" color="text.secondary" mb={3}>
           A simple and elegant way to manage your tasks.
         </Typography>
-        <AddTodoModal open={open} mode={mode} handleClose={handleClose} fetchTodos={fetchTodos}/>
+        <TodoModal open={open} mode={mode} handleClose={handleClose} fetchTodos={fetchTodos} initalData={selectedTodo}/>
 
         {/* Todo Container */}
         <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
@@ -89,7 +92,7 @@ const TodoListPage = () => {
               {
                 todos.map(todo => (
                   <ListItem key={todo.id}>
-                    <TodoCard todo={todo} onDelete={() =>handleDeleteTodo(todo.id)} onEdit={handleOpenEditModal}/>
+                    <TodoCard todo={todo} onDelete={() =>handleDeleteTodo(todo.id)} onEdit={() => handleOpenEditModal(todo)}/>
                   </ListItem>
                 ))
               }
