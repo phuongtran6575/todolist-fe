@@ -15,10 +15,12 @@ const TodoRegisterPage = () => {
     )
 
   const handleRegister = () =>{
-    axios.post(`http://localhost:8000/auth`, {
-      username: user.username,
-      password: user.password
-    }).then(() =>
+    axios.post(`http://localhost:8000/auth`, new URLSearchParams({
+       username: user.username,
+        password: user.password
+    }), {headers: {
+      "Content-Type": "application/x-www-form-urlencoded" 
+    }}).then(() =>
     {
       setUser({
         id: 0,
