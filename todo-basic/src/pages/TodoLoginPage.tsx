@@ -17,17 +17,30 @@ const TodoLoginPage = () => {
     }
   )
 
-  const handleLogin = () =>{
-    axios.post(`http://localhost:8000/auth/token`, new URLSearchParams({
+  const handleLogin = () => {
+  axios.post(
+    "http://localhost:8000/auth/token",
+    new URLSearchParams({
       username: user.username,
-        password: user.password
-    }) 
-      ,{headers: {"Content-Type": "application/x-www-form-urlencoded"}}).then(response => {
-      const access_token = response.data.access_token;
-      localStorage.setItem("token", access_token)
-      navigate("/todolist")
-    }).catch(e => console.log(e))
-  }
+      password: user.password,
+    }),
+    {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }
+  )
+  .then((response) => {
+    console.log("Login response:", response.data); // 👈 debug ở đây
+
+    const access_token = response.data.access_token;
+    if (access_token) {
+      localStorage.setItem("token", access_token);
+      navigate("/todolist");
+    } else {
+      console.error("No access_token in response:", response.data);
+    }
+  })
+  .catch((e) => console.error("Login error:", e));
+};
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh" bgcolor="#f9fafb">
