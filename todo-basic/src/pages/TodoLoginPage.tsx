@@ -22,12 +22,9 @@ const TodoLoginPage = () => {
       username: user.username,
         password: user.password
     }) 
-      ,{headers: {"Content-Type": "application/x-www-form-urlencoded"}}).then(() => {
-      setUser({
-        id: 0,
-        username: "",
-        password: ""
-      })
+      ,{headers: {"Content-Type": "application/x-www-form-urlencoded"}}).then(response => {
+      const access_token = response.data
+      localStorage.setItem("token", access_token)
       navigate("/todolist")
     }).catch(e => console.log(e))
   }
