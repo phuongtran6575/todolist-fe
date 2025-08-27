@@ -23,7 +23,7 @@ const TodoLoginPage = () => {
         password: user.password
     }) 
       ,{headers: {"Content-Type": "application/x-www-form-urlencoded"}}).then(response => {
-      const access_token = response.data
+      const access_token = response.data.access_token;
       localStorage.setItem("token", access_token)
       navigate("/todolist")
     }).catch(e => console.log(e))
