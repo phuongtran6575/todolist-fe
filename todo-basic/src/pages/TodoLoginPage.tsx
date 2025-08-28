@@ -8,7 +8,7 @@ import type { User } from "../models/User";
 
 const TodoLoginPage = () => {
   const navigate = useNavigate();
-  
+  const [error, setError] = useState<String | null>(null)
   const [user, setUser] = useState<User>(
     {
       id: 0,
@@ -35,11 +35,31 @@ const TodoLoginPage = () => {
     if (access_token) {
       localStorage.setItem("token", access_token);
       navigate("/todolist");
+      alert("Login Successfull")
     } else {
       console.error("No access_token in response:", response.data);
     }
   })
-  .catch((e) => console.error("Login error:", e));
+  .catch((err) => {
+    if(err.response)
+    {
+      switch(err.response.status){
+        case 401: 
+          setError("Sai mật khẩu hoặc tài khoản")
+          break;
+        case 402:
+          setError("Bạn không có quyền truy cập")
+          break;
+        case 409:
+          setError("Tên đăng nhập đã tồn tại")
+          break
+        default:
+          setError(err.response.data?.detail || "Có lỗi xảy ra");
+      }
+    } else {
+      setError("Không thể kết nối tới server");
+    }
+  });
 };
 
   return (
@@ -66,6 +86,7 @@ const TodoLoginPage = () => {
           <Button onClick={handleLogin} variant="contained" size="large" fullWidth sx={{ mt: 1, borderRadius: 2 }}>
             Login
           </Button>
+          {error && <p style={{ color: "red" }}>{error}</p>}
         </Box>
 
         {/* Register link */}
