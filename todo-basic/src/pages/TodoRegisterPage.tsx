@@ -26,6 +26,7 @@ const TodoRegisterPage = () => {
         password: ""
       })
       navigate("/")
+      alert
     }).catch(e => console.log(e))
   }
 

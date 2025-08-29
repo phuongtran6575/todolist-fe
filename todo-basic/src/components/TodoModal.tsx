@@ -73,7 +73,12 @@ const TodoModal = ({open, mode, handleClose, fetchTodos, initalData}:AddTodoModa
       name: todo.name,
       due_at: todo.due_at ? new Date(todo.due_at).toISOString() : null,
       isDone: todo.isDone
-    }).then(() =>{
+    },
+  {
+    headers:{
+      Authorization: `Bearer ${token}`,
+    }
+  }).then(() =>{
       setTodo({
         id: todo.id,
         description: todo.description,
