@@ -12,8 +12,14 @@ const TodoListPage = () => {
   const [mode, setMode] = useState<"add" | "edit">("add")
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
   
+  const token = localStorage.getItem("token");
+
   const fetchTodos = () =>{
-    axios.get(`http://localhost:8000/todos`).then(response => 
+    axios.get(`http://localhost:8000/todos/`, {
+      headers:{
+         Authorization: `Bearer ${token}`,
+      }
+    }).then(response => 
       setTodos(response.data)
     ).catch(e => console.error(e))
   }
@@ -41,7 +47,11 @@ const TodoListPage = () => {
   }
 
   const handleDeleteTodo = (id:number) =>{
-    axios.delete(`http://localhost:8000/todos/${id}`).then(() =>
+    axios.delete(`http://localhost:8000/todos/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    }).then(() =>
        setTodos(prev => prev.filter(todo => todo.id !== id))
     ).catch(e => console.error(e))
   }

@@ -23,6 +23,7 @@ const TodoModal = ({open, mode, handleClose, fetchTodos, initalData}:AddTodoModa
     }
   )
   
+  const token = localStorage.getItem("token");
 
   useEffect(() =>{
     if(mode === "edit" && initalData)
@@ -46,6 +47,10 @@ const TodoModal = ({open, mode, handleClose, fetchTodos, initalData}:AddTodoModa
     name: todo.name,
     due_at: todo.due_at ? new Date(todo.due_at).toISOString() : null,
     isDone: todo.isDone
+  }, {
+    headers:{
+      Authorization: `Bearer ${token}`,
+    }
   })
   .then(() => {
     setTodo({
